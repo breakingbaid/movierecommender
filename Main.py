@@ -32,7 +32,7 @@ for i in range(n_users):
     else:
         user[i].avg_r = 0.
 
-print(utility)
+print utility
 test = np.zeros((n_users, n_items))
 for r in rating_test:
     test[r.user_id - 1][r.item_id - 1] = r.rating
@@ -87,9 +87,9 @@ for i in range(0, n_users):
             sys.stdout.write("\rGenerating Similarity Matrix [%d:%d] = %f" % (i+1, j+1, pcs_matrix[i][j]))
             sys.stdout.flush()
             time.sleep(0.00005)
-print("\rGenerating Similarity Matrix [%d:%d] = %f" % (i+1, j+1, pcs_matrix[i][j]))
+print "\rGenerating Similarity Matrix [%d:%d] = %f" % (i+1, j+1, pcs_matrix[i][j])
 
-print(pcs_matrix)
+print pcs_matrix
 # Guesses the ratings that user with id, user_id, might give to item with id, i_id.
 # We will consider the top_n similar users to do this.
 def norm():
@@ -130,7 +130,7 @@ for i in range(0, n_users):
             sys.stdout.flush()
             time.sleep(0.00005)
             utility_copy[i][j] = guess(i+1, j+1, 150)
-print("\rGuessing [User:Rating] = [%d:%d]" % (i, j))
+print "\rGuessing [User:Rating] = [%d:%d]" % (i, j)
 pickle.dump( utility_copy, open("utility_matrix.pkl", "wb"))
 # Predict ratings for u.test and find the mean squared error
 y_true = []
@@ -144,5 +144,15 @@ for i in range(0, n_users):
             y_pred.append(utility_copy[i][cluster.labels_[j]-1])
 f.close()
 
-print ("Mean Squared Error: %f" % mean_squared_error(y_true, y_pred))
-print (pcs_matrix)
+print "Mean Squared Error: %f" % mean_squared_error(y_true, y_pred)
+print pcs_matrix
+%matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+#x, y = np.meshgrid(x, y)
+plt.pcolormesh(pcs_matrix)
+plt.colorbar() #need a colorbar to show the intensity scale
+plt.show() #boom
+plt.pcolormesh(utility_copy)
+plt.colorbar() #need a colorbar to show the intensity scale
+plt.show() #boom
